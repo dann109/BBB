@@ -1,4 +1,4 @@
-#Root Login
+# Root Login
 
 $ screen /dev/tty.usbmodem<varies> 115200
 
@@ -10,7 +10,7 @@ $ screen /dev/tty.usbmodem<varies> 115200
 
 
 
-#SSH Login
+# SSH Login
 
 ssh debian@beaglebone.local
 
@@ -20,7 +20,8 @@ ssh debian@beaglebone.local
 
 
 
-#to get internet working, assumes you are logged in as root on screen or debian on ssh
+# To get internet working
+#Assumes you are logged in as root on screen or debian on ssh
 #Connect to RedRover
 #System Preferences>>Sharing   select Internet Sharing over Wifi with BBB
 
@@ -35,14 +36,14 @@ $ wget http://beagleboard.org
 
 
 
-#To compile C++ code
+# To compile C++ code
 BBB requires compiler and library support for the ISO C++ 2011 standard.
 Whenever compiling, also list flag shown in error here -std=c++11 or -std=gnu++11
 /usr/include/c++/4.9/bits/c++0x_warning.h:32:2: error: #error This file requires compiler and library support for the ISO C++ 2011 standard. This support is currently experimental, and must be enabled with the -std=c++11 or -std=gnu++11 compiler options.
 
 
 
-#Resources
+# Resources
 BlackLib Support: http://blacklib.yigityuce.com/index.html
 Online BlackLib Manual: http://blacklib.yigityuce.com/v1_0/DOCUMENTS/EN/BlackLib-UserManual.pdf
 BBB Chat Room: https://beagleboard.org/chat
@@ -52,7 +53,8 @@ Source code for the book Exploring BeagleBone: https://github.com/derekmolloy/ex
 
 
 
-If the steps above fail, the remainder of this text file might help. It is somewhat repetitive, so scan through first.
+# If the steps above fail
+#the remainder of this text file might help. It is somewhat repetitive, so scan through first.
 
 Quick login (and verify system connections)
 screen /dev/tty.usbmodem<varies> 115200
