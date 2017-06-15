@@ -1,37 +1,32 @@
 # Root Login
 
-$ screen /dev/tty.usbmodem<varies> 115200
-
-#“logout” when done
-
-#To quit the screen app, type CTRL-A, then CTRL-\ while in screen
-#If you don't quit screen with this, you may not be able to get back in. You would have to restart the computer to get back in.
+"screen /dev/tty.usbmodem<varies> 115200"
+“logout” when done
+To quit the screen app, type CTRL-A, then CTRL-\ while in screen
+If you don't quit screen with this, you may not be able to get back in. You would have to restart the computer to get back in.
 
 
 
 
 # SSH Login
 
-ssh debian@beaglebone.local
-
-#“logout” when done
-#when executing commands as debian login which are administrative, start with "sudo" eg. "sudo apt-get update"
+"ssh debian@beaglebone.local"
+“logout” when done
+when executing commands as debian login which are administrative, start with "sudo" eg. "sudo apt-get update"
 
 
 
 
 # To get internet working
-#Assumes you are logged in as root on screen or debian on ssh
-#Connect to RedRover
-#System Preferences>>Sharing   select Internet Sharing over Wifi with BBB
+Assumes you are logged in as root on screen or debian on ssh
+Connect to RedRover
+System Preferences>>Sharing   select Internet Sharing over Wifi with BBB
 
-$ dhclient
+"dhclient"
+"ping google.com"
+"wget http://beagleboard.org" // Check that file was downloaded
 
-$ ping google.com
-
-$ wget http://beagleboard.org
-
-#If internet doesn't work, try "/sbin/route add default gw 192.168.7.1"
+If internet doesn't work, try "/sbin/route add default gw 192.168.7.1"
 
 
 
