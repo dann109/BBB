@@ -5,21 +5,23 @@ $ screen /dev/tty.usbmodem<varies> 115200
 #“logout” when done
 
 #To quit the screen app, type CTRL-A, then CTRL-\ while in screen
-
 #If you don't quit screen with this, you may not be able to get back in. You would have to restart the computer to get back in.
+
+
+
 
 #SSH Login
 
 ssh debian@beaglebone.local
 
 #“logout” when done
+#when executing commands as debian login which are administrative, start with "sudo" eg. "sudo apt-get update"
 
-#when executing commands in here which are administrative, start with "sudo" eg. "sudo apt-get update"
 
-#to get internet working assuming you are logged in as root on screen or debian on ssh
 
+
+#to get internet working, assumes you are logged in as root on screen or debian on ssh
 #Connect to RedRover
-
 #System Preferences>>Sharing   select Internet Sharing over Wifi with BBB
 
 $ dhclient
@@ -30,21 +32,27 @@ $ wget http://beagleboard.org
 
 #If internet doesn't work, try "/sbin/route add default gw 192.168.7.1"
 
-To compile:
+
+
+
+#To compile C++ code
 BBB requires compiler and library support for the ISO C++ 2011 standard.
 Whenever compiling, also list flag shown in error here -std=c++11 or -std=gnu++11
 /usr/include/c++/4.9/bits/c++0x_warning.h:32:2: error: #error This file requires compiler and library support for the ISO C++ 2011 standard. This support is currently experimental, and must be enabled with the -std=c++11 or -std=gnu++11 compiler options.
 
-#BlackLib Support: http://blacklib.yigityuce.com/index.html
-#Online BlackLib Manual: http://blacklib.yigityuce.com/v1_0/DOCUMENTS/EN/BlackLib-UserManual.pdf
-#BBB Chat Room: https://beagleboard.org/chat
-#BBB Forum: https://groups.google.com/forum/#!forum/beagleboard
-#Source code for the book Exploring BeagleBone: https://github.com/derekmolloy/exploringBB/
+
+
+#Resources
+BlackLib Support: http://blacklib.yigityuce.com/index.html
+Online BlackLib Manual: http://blacklib.yigityuce.com/v1_0/DOCUMENTS/EN/BlackLib-UserManual.pdf
+BBB Chat Room: https://beagleboard.org/chat
+BBB Forum: https://groups.google.com/forum/#!forum/beagleboard
+Source code for the book Exploring BeagleBone: https://github.com/derekmolloy/exploringBB/
 
 
 
 
-If the above fails, the remainder of this text file might help. It is somewhat repetitive, so scan through first.
+If the steps above fail, the remainder of this text file might help. It is somewhat repetitive, so scan through first.
 
 Quick login (and verify system connections)
 screen /dev/tty.usbmodem<varies> 115200
