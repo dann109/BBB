@@ -1,3 +1,5 @@
+#Github won't let me change it from bold to regular. Not bold for any reason.
+
 #Root Login
 $ screen /dev/tty.usbmodem<varies> 115200
 # “logout” when done
