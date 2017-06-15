@@ -1,33 +1,50 @@
-#Github won't let me change it from bold to regular. Not bold for any reason.
-
 #Root Login
+
 $ screen /dev/tty.usbmodem<varies> 115200
-# “logout” when done
+
+#“logout” when done
+
 #To quit the screen app, type CTRL-A, then CTRL-\ while in screen
-# If you don't quit screen with this, you may not be able to get back in. You would have to restart the computer to get back in.
+
+#If you don't quit screen with this, you may not be able to get back in. You would have to restart the computer to get back in.
 
 #SSH Login
+
 ssh debian@beaglebone.local
-# “logout” when done
-# when executing commands in here which are administrative, start with "sudo" eg. "sudo apt-get update"
 
-# to get internet working assuming you are logged in as root on screen or debian on ssh
-# Connect to RedRover
-# System Preferences>>Sharing   select Internet Sharing over Wifi with BBB
+#“logout” when done
+
+#when executing commands in here which are administrative, start with "sudo" eg. "sudo apt-get update"
+
+#to get internet working assuming you are logged in as root on screen or debian on ssh
+
+#Connect to RedRover
+
+#System Preferences>>Sharing   select Internet Sharing over Wifi with BBB
+
 $ dhclient
-$ ping google.com
-$ wget http://beagleboard.org
-# If internet doesn't work, try "/sbin/route add default gw 192.168.7.1"
 
+$ ping google.com
+
+$ wget http://beagleboard.org
+
+#If internet doesn't work, try "/sbin/route add default gw 192.168.7.1"
+
+To compile:
 BBB requires compiler and library support for the ISO C++ 2011 standard.
 Whenever compiling, also list flag shown in error here -std=c++11 or -std=gnu++11
 /usr/include/c++/4.9/bits/c++0x_warning.h:32:2: error: #error This file requires compiler and library support for the ISO C++ 2011 standard. This support is currently experimental, and must be enabled with the -std=c++11 or -std=gnu++11 compiler options.
 
+#BlackLib Support: http://blacklib.yigityuce.com/index.html
+#Online BlackLib Manual: http://blacklib.yigityuce.com/v1_0/DOCUMENTS/EN/BlackLib-UserManual.pdf
+#BBB Chat Room: https://beagleboard.org/chat
+#BBB Forum: https://groups.google.com/forum/#!forum/beagleboard
+#Source code for the book Exploring BeagleBone: https://github.com/derekmolloy/exploringBB/
 
 
-If the above fails, the remains of this text file might help. It is somewhat repetitive, so scan through first.
 
 
+If the above fails, the remainder of this text file might help. It is somewhat repetitive, so scan through first.
 
 Quick login (and verify system connections)
 screen /dev/tty.usbmodem<varies> 115200
@@ -115,6 +132,3 @@ To quit the screen app, type CTRL-A, then CTRL-\ while in screen
 Summary:
 Use screen to access root, and ssh to access debian
 use sudo in debian when access is not granted.
-
-How to compile blacklib on BBB
-https://stackoverflow.com/questions/27771076/how-to-compile-blacklib-c/29677607#29677607
