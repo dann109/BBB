@@ -1,7 +1,7 @@
 // Inertia Motors
 // After satisfactory testing, choose a default resistance setting and save it
 // to the 20-TP MEMORY using procedure laid out for IC.
-
+// http://www.analog.com/media/en/technical-documentation/data-sheets/AD5291_5292.pdf
 
 // DigiPot Voltage Divider for Vout Motor Controller
 // Vout ranges from 0.33V to 10.8V
