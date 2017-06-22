@@ -1,0 +1,169 @@
+# Inertia Motors
+// After satisfactory testing, choose a default resistance setting and save it
+// to the 20-TP MEMORY using procedure laid out for IC.
+
+
+// DigiPot Voltage Divider for Vout Motor Controller
+// Vout ranges from 0.33V to 10.8V
+
+// Note that byte notation is limited to 8 bits
+
+#include <SPI.h>
+#include <stdlib.h>
+
+// By default, 11 = MOSI, 12 = MISO, 13 = CLK
+const int CS = 10;
+const int GPIO8 = 2; // Mux control of SS data
+const int GPIO9 = 3; // Mux control of SS data
+
+// Commands
+const byte C0=B00000000; // NOP command: do nothing.
+const byte C1=B000001; // Specify D9:D0 to write contents of serial data to RDAC.
+const byte C2=B00001000; // Read RDAC wiper setting from the SDO output in the next frame.
+const byte C3=B00001100; // Store wiper setting: store RDAC setting to 20-TP memory.
+const byte C4=B00010000; // Reset: refresh RDAC with 20-TP stored value.
+const byte C5=B00010100; // Specify location with D4:D0. Read contents of 20-TP memory, or status of 20-TP memory, from the SDO output in the next frame.
+const byte C6=B00011000; // Specify D3:D0. Write contents of serial data to control register.
+const byte C7=B00011100; // Read control register from the SDO output in the next frame.
+const byte C8=B00100000; // Specify D0. Software shutdown. D0 = 0 (normal mode). D0 = 1 (device placed in shutdown mode).
+
+void _send(int data1, int data2) { // 16 bits
+digitalWrite(CS,LOW);
+SPI.transfer(data1);
+SPI.transfer(data2);
+digitalWrite(CS,HIGH);
+}
+
+void wiper(int data1, int data2) { // 10 bits
+digitalWrite(CS,LOW);
+SPI.transfer(C1); // command to write contents of serial data to RDAC
+SPI.transfer(data1); // first 5 bits of data
+SPI.transfer(data2); // last 5 bits of data
+digitalWrite(CS,HIGH);
+}
+
+void Shutdown (void) {
+// Places the RDAC in a special state in which Terminal A is open-circuited,
+// and Wiper W is connected to Terminal B.
+}
+
+void _CS(int x) { // choose DigiPot 1, 2, or 3
+  switch (x) {
+    case 1:
+      digitalWrite(GPIO8, LOW);
+      digitalWrite(GPIO9, LOW);
+      _send(C0,C0); // Test connection
+      break;
+    case 2:
+      digitalWrite(GPIO8, LOW);
+      digitalWrite(GPIO9, HIGH);
+      _send(C0,C0); // Test connection
+      break;
+    case 3:
+      digitalWrite(GPIO8, HIGH);
+      digitalWrite(GPIO9, LOW); // X: doesn't matter, but let's save energy
+      _send(C0,C0); // Test connection
+      break;
+    default:
+      // do nothing?
+    break;
+}
+}
+
+void setup() {
+pinMode(CS,OUTPUT); // Set pin 10 as slave select output
+SPI.begin();
+}
+
+void loop() {
+  
+// This section of code should fail to write since write is disabled
+_send(C2,C0);  // Read RDAC wiper setting from the SDO output in the next frame.
+delay(10000000);
+wiper(B11111,B11111); // Max Resistance
+delay(100);
+_send(C2,C0);  // Read RDAC wiper setting from the SDO output in the next frame.
+delay(10000000);
+
+
+// Startup
+_CS(1); // communicate with chip 1
+_send(C6,B00000010); // disable write protection - make C1 true in control register
+_CS(2); // communicate with chip 2
+_send(C6,B00000010); // disable write protection - make C1 true in control register
+_CS(3); // communicate with chip 3
+_send(C6,B00000010); // disable write protection - make C1 true in control register
+
+delay(1000000);
+
+// Playful Adjustments (These notes might be backwards depending if wiper travels up or down)
+_CS(1);
+_send(C2,C0);  // Read RDAC wiper setting from the SDO output in the next frame.
+delay(100);
+_send(C4,C0);  // Reset: refresh RDAC with 20-TP stored value.
+delay(100);
+_send(C2,C0);  // Read RDAC wiper setting from the SDO output in the next frame.
+delay(100);
+wiper(B11111,B11111); // Max Resistance
+delay(100);
+_send(C2,C0);  // Read RDAC wiper setting from the SDO output in the next frame.
+delay(10000000);
+wiper(B00000,B00000); // Min Resistance
+delay(100);
+_send(C2,C0);  // Read RDAC wiper setting from the SDO output in the next frame.
+delay(10000000);
+wiper(B00011,B11111); // 20K*127/1024 = 2.48K
+delay(100);
+_send(C2,C0);  // Read RDAC wiper setting from the SDO output in the next frame.
+delay(10000000);
+wiper(B01111,B11111); // 20K*511/1024 = 9.98K
+delay(100);
+_send(C2,C0);  // Read RDAC wiper setting from the SDO output in the next frame.
+delay(10000000);
+
+// Software Shutdown
+_send(C8,B00000000); // Normal mode shutdown. Should result in open circuit
+delay(1000000000);
+}
+
+# MTR
+// May want to test that XOR doesn't allow GPIO1 && GPIO2 to be true
+
+const int MTR = 9; // Use pin 9 for PWM
+const int GPIO1 = 2; // Use pin 2 for H-Bridge Control
+const int GPIO2 = 3; // Use pin 3 for H-Bridge Control
+
+void setup() {
+pinMode (MTR, OUTPUT);
+pinMode (2, OUTPUT);
+pinMode (3, OUTPUT);
+}
+
+void ForwardCurrent(void) {
+digitalWrite(3, LOW); // Should be low, but just to verify
+digitalWrite(2, HIGH);
+}
+void ReverseCurrent(void) {
+digitalWrite(2, LOW); // Should be low, but just to verify
+digitalWrite(3, HIGH);
+}
+void HbridgeOff(void) {
+digitalWrite(2, LOW);
+digitalWrite(3, LOW);
+}
+
+void loop() {
+
+ReverseCurrent();
+analogWrite(MTR,3); // 3/255% PWM
+delay(1000000);
+HBridgeOff();
+
+delay(100000);
+
+ForwardCurrent();
+analogWrite(MTR,3); // 3/255% PWM
+delay(1000000);
+HBridgeOff();
+
+}
