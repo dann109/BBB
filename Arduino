@@ -1,4 +1,4 @@
-# Inertia Motors
+// Inertia Motors
 // After satisfactory testing, choose a default resistance setting and save it
 // to the 20-TP MEMORY using procedure laid out for IC.
 
@@ -126,7 +126,11 @@ _send(C8,B00000000); // Normal mode shutdown. Should result in open circuit
 delay(1000000000);
 }
 
-# MTR
+
+////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// MTR
 // May want to test that XOR doesn't allow GPIO1 && GPIO2 to be true
 
 const int MTR = 9; // Use pin 9 for PWM
